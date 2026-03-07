@@ -26,13 +26,13 @@ export default function EmailForm({
       <div
         className="flex items-center gap-3 p-4 rounded-xl"
         style={{
-          background: `${colors.green}20`,
-          border: `1px solid ${colors.green}50`,
+          background: `${colors.cyan}20`,
+          border: `1px solid ${colors.cyan}50`,
         }}
       >
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center"
-          style={{ background: colors.green }}
+          style={{ background: colors.cyan }}
         >
           <svg
             className="w-5 h-5 text-white"
@@ -47,7 +47,7 @@ export default function EmailForm({
           </svg>
         </div>
         <div>
-          <div className="font-bold" style={{ color: colors.green }}>
+          <div className="font-bold" style={{ color: colors.cyan }}>
             Email Sent!
           </div>
           <div className="text-zinc-400 text-sm">Check your inbox</div>
@@ -76,7 +76,7 @@ export default function EmailForm({
           className="absolute bottom-0 left-0 right-0 h-0.5"
           style={{
             background: email
-              ? `linear-gradient(90deg, ${colors.red}, ${colors.green})`
+              ? `linear-gradient(90deg, ${colors.cyan}, ${colors.blue})`
               : "transparent",
           }}
         />
@@ -90,9 +90,9 @@ export default function EmailForm({
           background:
             !email || sending
               ? "#444"
-              : `linear-gradient(135deg, ${colors.gold}, ${colors.red})`,
+              : `linear-gradient(135deg, ${colors.cyan}, ${colors.blue})`,
           boxShadow:
-            !email || sending ? "none" : `0 15px 35px ${colors.gold}40`,
+            !email || sending ? "none" : `0 15px 35px ${colors.cyan}40`,
           color: "#fff",
         }}
       >
@@ -117,13 +117,13 @@ export default function EmailForm({
         <div
           className="flex items-start gap-3 p-4 rounded-xl"
           style={{
-            background: `${colors.red}20`,
-            border: `1px solid ${colors.red}50`,
+            background: `#EF444420`,
+            border: `1px solid #EF444450`,
           }}
         >
           <div
             className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ background: colors.red }}
+            style={{ background: "#EF4444" }}
           >
             <svg
               className="w-4 h-4 text-white"
@@ -138,7 +138,7 @@ export default function EmailForm({
             </svg>
           </div>
           <div>
-            <div className="font-bold" style={{ color: colors.red }}>
+            <div className="font-bold" style={{ color: "#EF4444" }}>
               Error Sending Email
             </div>
             <div className="text-zinc-400 text-sm">{emailError}</div>

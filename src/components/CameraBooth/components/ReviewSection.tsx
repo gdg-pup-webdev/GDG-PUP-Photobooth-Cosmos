@@ -31,7 +31,7 @@ export default function ReviewSection({
   onRetakeAll,
   onOpenPreview,
 }: ReviewSectionProps) {
-  const shotColors = [colors.green, colors.red, colors.gold];
+  const shotColors = [colors.cyan, colors.blue, "#A855F7"];
 
   return (
     <div className="space-y-6">
@@ -39,7 +39,7 @@ export default function ReviewSection({
         <h2
           className="text-4xl font-black bg-clip-text text-transparent mb-2"
           style={{
-            backgroundImage: `linear-gradient(135deg, ${colors.gold}, ${colors.red})`,
+            backgroundImage: `linear-gradient(135deg, ${colors.cyan}, ${colors.blue})`,
           }}
         >
           Review
@@ -157,8 +157,8 @@ export default function ReviewSection({
           onClick={() => downloadPhotostrip(shots)}
           className="w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98]"
           style={{
-            background: `linear-gradient(135deg, ${colors.green}, ${colors.red})`,
-            boxShadow: `0 15px 35px ${colors.green}40`,
+            background: `linear-gradient(135deg, ${colors.cyan}, ${colors.blue})`,
+            boxShadow: `0 15px 35px ${colors.cyan}40`,
             color: "#fff",
           }}
         >

@@ -27,11 +27,11 @@ export default function CameraPreview({
 }: CameraPreviewProps) {
   return (
     <div className="relative flex-1 aspect-[3/4] max-h-[85vh]">
-      {/* Decorative Wreath - positioned outside the clipped area */}
+      {/* Decorative Element - positioned outside the clipped area */}
       <img
-        src="/assets/Wreath.webp"
-        alt="Christmas Wreath"
-        className="absolute -top-12 -left-12 w-32 h-32 md:w-40 md:h-40 object-contain z-30 pointer-events-none rotate-[-30deg]"
+        src="/photobooth/photobooth-decorative-element.png"
+        alt="Decorative Element"
+        className="absolute -top-12 -left-12 w-32 h-32 md:w-40 md:h-40 object-contain z-30 pointer-events-none"
       />
 
       {/* Inner container that clips content */}
@@ -72,7 +72,7 @@ export default function CameraPreview({
         <div
           className="absolute inset-0 rounded-l-3xl pointer-events-none z-10"
           style={{
-            background: `linear-gradient(135deg, ${colors.green}30, ${colors.red}30, ${colors.gold}30, ${colors.white}30)`,
+            background: `linear-gradient(135deg, ${colors.cyan}30, ${colors.blue}30, #A855F730, ${colors.white}30)`,
             padding: "2px",
             WebkitMask:
               "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
@@ -90,8 +90,8 @@ export default function CameraPreview({
             <div
               className="flex items-center gap-3 px-6 py-3 rounded-full"
               style={{
-                background: `linear-gradient(135deg, ${colors.green}, ${colors.red})`,
-                boxShadow: `0 10px 30px ${colors.green}50`,
+                background: `linear-gradient(135deg, ${colors.cyan}, ${colors.blue})`,
+                boxShadow: `0 10px 30px ${colors.cyan}50`,
               }}
             >
               <svg
