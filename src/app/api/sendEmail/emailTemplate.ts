@@ -10,10 +10,6 @@ const colors = {
   darkGreen: "#165B33",
   red: "#BB2528",
   navyCard: "#020d28",
-  gold: "#F8B229",       // Added missing color
-  green: "#165B33",      // Added missing color
-  darkGreen: "#0F3D22",  // Added missing color
-  red: "#BB2528",        // Added missing color
 };
 
 // GDG Brand Colors (for logo dots)
