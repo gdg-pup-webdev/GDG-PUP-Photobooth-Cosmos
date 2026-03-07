@@ -6,10 +6,10 @@ import { colors } from "../../ui";
  */
 export default function Instructions() {
   const steps = [
-    { text: "Choose your favorite filter", color: colors.green },
-    { text: "Press the capture button to take 3 shots", color: colors.red },
-    { text: "Review and retake if needed", color: colors.gold },
-    { text: "Download or email your photo strip!", color: colors.green },
+    { text: "Choose your favorite filter", color: colors.cyan },
+    { text: "Press the capture button to take 3 shots", color: colors.blue },
+    { text: "Review and retake if needed", color: "#A855F7" },
+    { text: "Download or email your photo strip!", color: colors.cyan },
   ];
 
   return (

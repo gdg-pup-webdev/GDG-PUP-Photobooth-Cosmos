@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-  FloatingShapes,
   FilterModal,
   StickerModal,
   PreviewModal,
@@ -99,17 +98,11 @@ export default function CameraBooth(_props: CameraBoothProps) {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden"
-      style={{
-        background: `linear-gradient(135deg, #0D1F12 0%, #1A2F1E 40%, #0D3B1F 70%, #1F1515 100%)`,
-      }}
-    >
+    <div className="min-h-screen w-full flex items-center justify-center p-6 relative overflow-hidden">
       {/* CSS Animations */}
       <style jsx global>{CAMERA_ANIMATIONS}</style>
 
       <Decorations />
-      <FloatingShapes />
 
       {/* Filter Modal */}
       <FilterModal

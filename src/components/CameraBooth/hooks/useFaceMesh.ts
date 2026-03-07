@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import {
-  drawSantaHat,
-  drawMustache,
-  drawReindeer,
-  drawElfEars,
-  drawCurvedText,
-  drawSnowflakes,
-  drawHeadband,
-  drawGlasses,
+  drawAstronautHelmet,
+  drawAlienAntennae,
+  drawAlienEars,
+  drawSpaceVisor,
+  drawCosmosText,
+  drawStars,
   drawSparky,
   drawDebugMesh,
   Snowflake,
@@ -82,7 +80,7 @@ export const useFaceMesh = (
     // Load Sparky image if selected
     if (currentSticker === 'sparky' && !sparkyImageRef.current) {
       const img = new Image();
-      img.src = '/assets/Sparky Christmas 2.webp';
+      img.src = '/photobooth/photobooth-sparky-element.png';
       img.onload = () => {
         sparkyImageRef.current = img;
         console.log('✅ Sparky image loaded successfully!', img.width, 'x', img.height);
@@ -121,9 +119,9 @@ export const useFaceMesh = (
     // Performance mode: simplify rendering when many faces
     const isPerformanceMode = faceCount >= 2;
 
-    // Always draw snowflakes if selected (even without face)
-    if (filter === "snowflakes") {
-      drawSnowflakes(ctx, snowflakesRef.current, canvas.width, canvas.height);
+    // Always draw stars if selected (even without face)
+    if (filter === "stars") {
+      drawStars(ctx, snowflakesRef.current, canvas.width, canvas.height);
     }
 
     if (results?.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
@@ -138,26 +136,20 @@ export const useFaceMesh = (
         }
 
         switch (filter) {
-          case "santa_hat":
-            drawSantaHat(ctx, landmarks, canvas.width, canvas.height);
+          case "astronaut":
+            drawAstronautHelmet(ctx, landmarks, canvas.width, canvas.height);
             break;
-          case "mustache":
-            drawMustache(ctx, landmarks, canvas.width, canvas.height);
+          case "alien_antennae":
+            drawAlienAntennae(ctx, landmarks, canvas.width, canvas.height);
             break;
-          case "reindeer":
-            drawReindeer(ctx, landmarks, canvas.width, canvas.height);
+          case "alien_ears":
+            drawAlienEars(ctx, landmarks, canvas.width, canvas.height);
             break;
-          case "elf":
-            drawElfEars(ctx, landmarks, canvas.width, canvas.height);
+          case "cosmos_text":
+            drawCosmosText(ctx, landmarks, canvas.width, canvas.height);
             break;
-          case "santa_text":
-            drawCurvedText(ctx, landmarks, canvas.width, canvas.height);
-            break;
-          case "headband":
-            drawHeadband(ctx, landmarks, canvas.width, canvas.height);
-            break;
-          case "glasses":
-            drawGlasses(ctx, landmarks, canvas.width, canvas.height);
+          case "space_visor":
+            drawSpaceVisor(ctx, landmarks, canvas.width, canvas.height);
             break;
           case "debug":
             drawDebugMesh(ctx, landmarks, canvas.width, canvas.height);
@@ -316,6 +308,12 @@ export const useFaceMesh = (
     const init = async () => {
       try {
         if (!isMountedRef.current) return;
+
+        // Cancel any stale animation loop from a previous sticker change
+        if (requestRef.current) {
+          cancelAnimationFrame(requestRef.current);
+          requestRef.current = null;
+        }
 
         const isSparkyMode = stickerRef.current === 'sparky';
 

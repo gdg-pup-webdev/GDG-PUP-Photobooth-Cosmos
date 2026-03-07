@@ -29,7 +29,7 @@ export default function CaptureButton({
         style={{
           background: disabled
             ? "#444"
-            : `conic-gradient(${colors.green}, ${colors.red}, ${colors.gold}, ${colors.white}, ${colors.green})`,
+            : `conic-gradient(${colors.cyan}, ${colors.blue}, #A855F7, ${colors.white}, ${colors.cyan})`,
           animation: disabled ? "none" : "spin 3s linear infinite",
           opacity: disabled ? 0.5 : 1,
         }}
@@ -50,11 +50,11 @@ export default function CaptureButton({
               background: disabled
                 ? "#555"
                 : isCapturing
-                ? `linear-gradient(135deg, ${colors.red}, ${colors.gold})`
-                : `linear-gradient(135deg, ${colors.green}, ${colors.red})`,
+                ? `linear-gradient(135deg, #A855F7, ${colors.blue})`
+                : `linear-gradient(135deg, ${colors.cyan}, ${colors.blue})`,
               boxShadow: disabled
                 ? "none"
-                : `0 0 30px ${isCapturing ? colors.red : colors.green}60`,
+                : `0 0 30px ${isCapturing ? "#A855F7" : colors.cyan}60`,
             }}
           >
             {isCapturing ? (

@@ -67,7 +67,7 @@ export default function StickerModal({
           boxShadow: `
             0 25px 50px -12px rgba(0, 0, 0, 0.8),
             0 0 0 1px rgba(255, 255, 255, 0.05),
-            0 0 80px ${colors.gold}20
+            0 0 80px rgba(87,202,255,0.12)
           `,
           animation: "slideUp 0.3s ease-out",
         }}
@@ -82,7 +82,7 @@ export default function StickerModal({
               <h2
                 className="text-2xl font-black bg-clip-text text-transparent"
                 style={{
-                  backgroundImage: `linear-gradient(135deg, ${colors.gold}, ${colors.green})`,
+                  backgroundImage: `linear-gradient(135deg, ${colors.cyan}, ${colors.blue})`,
                 }}
               >
                 Choose Sticker
@@ -128,10 +128,10 @@ export default function StickerModal({
                     className="aspect-square rounded-2xl overflow-hidden relative flex items-center justify-center bg-white/5"
                     style={{
                       border: isSelected
-                        ? `3px solid ${colors.gold}`
+                        ? `3px solid ${colors.cyan}`
                         : "3px solid transparent",
                       boxShadow: isSelected
-                        ? `0 0 20px ${colors.gold}50`
+                        ? `0 0 20px ${colors.cyan}50`
                         : "none",
                     }}
                   >
@@ -144,13 +144,13 @@ export default function StickerModal({
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
                       style={{
-                        background: `linear-gradient(135deg, ${colors.gold}40, ${colors.gold}20)`,
+                        background: `linear-gradient(135deg, ${colors.cyan}40, ${colors.blue}20)`,
                       }}
                     >
                       {isSelected && (
                         <div
                           className="w-10 h-10 rounded-full flex items-center justify-center"
-                          style={{ background: colors.gold }}
+                          style={{ background: colors.cyan }}
                         >
                           <Check className="w-6 h-6 text-white" />
                         </div>
@@ -161,7 +161,7 @@ export default function StickerModal({
                     {isSelected && (
                       <div
                         className="absolute z-[100] top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center"
-                        style={{ background: colors.gold }}
+                        style={{ background: colors.cyan }}
                       >
                         <Check className="w-4 h-4 text-white" />
                       </div>
@@ -173,7 +173,7 @@ export default function StickerModal({
                     <span
                       className="font-bold text-sm transition-colors"
                       style={{
-                        color: isSelected ? colors.gold : "#888",
+                        color: isSelected ? colors.cyan : "#888",
                       }}
                     >
                       {filter.name}
@@ -197,9 +197,9 @@ export default function StickerModal({
             onClick={onClose}
             className="px-6 py-3 rounded-xl font-bold transition-all hover:scale-[1.02]"
             style={{
-              background: `linear-gradient(135deg, ${colors.gold}, ${colors.green})`,
+              background: `linear-gradient(135deg, ${colors.cyan}, ${colors.blue})`,
               color: "#fff",
-              boxShadow: `0 10px 25px ${colors.gold}40`,
+              boxShadow: `0 10px 25px ${colors.cyan}40`,
             }}
           >
             Done

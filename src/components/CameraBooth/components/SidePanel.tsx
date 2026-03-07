@@ -84,8 +84,8 @@ export default function SidePanel({
         <div
           className="w-14 h-14 rounded-full overflow-hidden transition-all group-hover:scale-110 flex items-center justify-center bg-zinc-800"
           style={{
-            border: `2px solid ${currentSticker !== 'none' ? colors.green : 'rgba(255, 255, 255, 0.2)'}`,
-            boxShadow: currentSticker !== 'none' ? `0 0 20px ${colors.green}30` : 'none',
+            border: `2px solid ${currentSticker !== 'none' ? colors.cyan : 'rgba(255, 255, 255, 0.2)'}`,
+            boxShadow: currentSticker !== 'none' ? `0 0 20px ${colors.cyan}30` : 'none',
           }}
         >
           {currentSticker !== 'none' ? (
@@ -179,7 +179,7 @@ export default function SidePanel({
               <div
                 className="absolute bottom-0 right-0 w-5 h-5 rounded-tl-lg flex items-center justify-center text-xs font-bold"
                 style={{
-                  background: colors.green,
+                  background: colors.cyan,
                   color: "#fff",
                 }}
               >
@@ -217,7 +217,7 @@ export default function SidePanel({
       >
         <div className="flex gap-1.5 justify-center">
           {shots.map((shot, i) => {
-            const dotColor = [colors.green, colors.red, colors.gold][i];
+            const dotColor = [colors.cyan, colors.blue, "#A855F7"][i];
             return (
               <div
                 key={i}

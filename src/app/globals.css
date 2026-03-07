@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f0f0f;
+  --background: #000614;
   --foreground: #ededed;
+  --primary: #57CAFF;
 }
 
 @theme inline {
@@ -21,9 +22,10 @@ code, pre, .font-mono {
   font-family: "Roboto Mono", monospace;
 }
 
-/* Smooth scrolling */
-html {
+/* Smooth scrolling & no horizontal overflow */
+html, body {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Better text rendering */
