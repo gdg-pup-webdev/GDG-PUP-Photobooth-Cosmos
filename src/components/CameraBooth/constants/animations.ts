@@ -42,16 +42,13 @@ export const CAMERA_ANIMATIONS = `
   
   @keyframes glow {
     0%, 100% {
-      box-shadow: 0 0 20px ${colors.green}40, 0 0 40px ${colors.green}20;
+      box-shadow: 0 0 20px ${colors.cyan}40, 0 0 40px ${colors.cyan}20;
     }
-    25% {
-      box-shadow: 0 0 20px ${colors.red}40, 0 0 40px ${colors.red}20;
+    33% {
+      box-shadow: 0 0 20px ${colors.blue}40, 0 0 40px ${colors.blue}20;
     }
-    50% {
-      box-shadow: 0 0 20px ${colors.gold}40, 0 0 40px ${colors.gold}20;
-    }
-    75% {
-      box-shadow: 0 0 20px ${colors.white}40, 0 0 40px ${colors.white}20;
+    66% {
+      box-shadow: 0 0 20px #A855F740, 0 0 40px #A855F720;
     }
   }
   

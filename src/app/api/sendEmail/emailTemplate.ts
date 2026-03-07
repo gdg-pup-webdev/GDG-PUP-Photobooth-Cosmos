@@ -1,11 +1,11 @@
-// Christmas Theme Colors (matching UI/UX)
+// Cosmos Theme Colors
 const colors = {
-  green: "#165B33",      // Christmas green
-  red: "#BB2528",        // Christmas red
-  gold: "#F8B229",       // Christmas gold
-  white: "#FFFFFF",
-  darkGreen: "#0F3D22",
-  lightRed: "#EA4630",
+  cyan: "#57CAFF",
+  blue: "#4285F4",
+  navy: "#000614",
+  purple: "#A855F7",
+  white: "#F0F8FF",
+  navyCard: "#020d28",
 };
 
 // GDG Brand Colors (for logo dots)
@@ -25,7 +25,7 @@ export function getEmailTemplate(recipientEmail: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   <meta name="supported-color-schemes" content="light dark">
-  <title>Santa Doesn't Know U Like I Do</title>
+  <title>GDG PUP Photobooth Cosmos 2026</title>
   <style>
     :root {
       color-scheme: light dark;
@@ -40,25 +40,25 @@ export function getEmailTemplate(recipientEmail: string): string {
     }
     
     /* Light mode styles (default) */
-    .body-bg { background-color: #f5f5f5 !important; }
-    .main-card { background: linear-gradient(145deg, #ffffff, #f8f9fa) !important; }
-    .header-bg { background: linear-gradient(180deg, rgba(22, 91, 51, 0.08), transparent) !important; }
-    .content-card { background: linear-gradient(145deg, rgba(22, 91, 51, 0.08), rgba(187, 37, 40, 0.05)) !important; }
+    .body-bg { background-color: #f0f4ff !important; }
+    .main-card { background: linear-gradient(145deg, #ffffff, #f0f4ff) !important; }
+    .header-bg { background: linear-gradient(180deg, rgba(66,133,244,0.08), transparent) !important; }
+    .content-card { background: linear-gradient(145deg, rgba(87,202,255,0.08), rgba(66,133,244,0.05)) !important; }
     .heading-text { color: #1a1a1a !important; }
     .body-text { color: #333333 !important; }
     .muted-text { color: #666666 !important; }
-    .footer-bg { background: #fafafa !important; }
+    .footer-bg { background: #f8faff !important; }
     
     /* Dark mode styles */
     @media (prefers-color-scheme: dark) {
-      .body-bg { background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #0f0f0f 100%) !important; }
-      .main-card { background: linear-gradient(145deg, #1a1a2e, #0f0f0f) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; }
-      .header-bg { background: linear-gradient(180deg, rgba(22, 91, 51, 0.15), transparent) !important; }
-      .content-card { background: linear-gradient(145deg, rgba(22, 91, 51, 0.15), rgba(187, 37, 40, 0.1)) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; }
+      .body-bg { background: linear-gradient(135deg, #000614 0%, #020d28 50%, #000614 100%) !important; }
+      .main-card { background: linear-gradient(145deg, #020d28, #000614) !important; border: 1px solid rgba(87,202,255,0.1) !important; }
+      .header-bg { background: linear-gradient(180deg, rgba(87,202,255,0.12), transparent) !important; }
+      .content-card { background: linear-gradient(145deg, rgba(87,202,255,0.08), rgba(66,133,244,0.06)) !important; border: 1px solid rgba(87,202,255,0.1) !important; }
       .heading-text { color: #ffffff !important; }
       .body-text { color: rgba(255, 255, 255, 0.85) !important; }
       .muted-text { color: rgba(255, 255, 255, 0.6) !important; }
-      .footer-bg { background: rgba(0, 0, 0, 0.3) !important; }
+      .footer-bg { background: rgba(0, 6, 20, 0.6) !important; }
     }
   </style>
 </head>
@@ -82,21 +82,21 @@ export function getEmailTemplate(recipientEmail: string): string {
             </td>
           </tr>
           
-          <!-- Festive Header Section -->
+          <!-- Cosmos Header Section -->
           <tr>
             <td align="center" class="header-padding header-bg" style="padding: 32px 24px 16px 24px;">
-              <p style="margin: 0; font-size: 40px; line-height: 1;">🎄</p>
-              <h1 style="margin: 16px 0 0 0; font-size: 22px; font-weight: 800; color: ${colors.gold}; line-height: 1.3;">
-                Santa Doesn't Know U Like I Do
+              <p style="margin: 0; font-size: 40px; line-height: 1;">✨</p>
+              <h1 style="margin: 16px 0 0 0; font-size: 22px; font-weight: 800; color: ${colors.cyan}; line-height: 1.3;">
+                GDG PUP Photobooth Cosmos
               </h1>
               <p class="heading-text" style="margin: 8px 0 0 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #1a1a1a;">
-                A Design Jam
+                COSMOS 2026
               </p>
               <table role="presentation" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
                 <tr>
-                  <td style="background: linear-gradient(135deg, ${colors.green}, ${colors.darkGreen}); padding: 6px 16px; border-radius: 20px;">
+                  <td style="background: linear-gradient(135deg, ${colors.blue}, ${colors.cyan}); padding: 6px 16px; border-radius: 20px;">
                     <p style="margin: 0; color: ${colors.white}; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
-                      UI/UX 2nd Study Jam
+                      GDG on Campus PUP
                     </p>
                   </td>
                 </tr>

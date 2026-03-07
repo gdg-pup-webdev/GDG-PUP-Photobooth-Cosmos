@@ -39,7 +39,7 @@ export default function PreviewModal({
   const validImages = images.filter(Boolean) as string[];
 
   // Color for current image
-  const shotColors = [colors.green, colors.red, colors.gold];
+  const shotColors = [colors.cyan, colors.blue, "#A855F7"];
   const currentColor = shotColors[currentIndex % 3];
 
   // Reset index when modal opens with new initialIndex
