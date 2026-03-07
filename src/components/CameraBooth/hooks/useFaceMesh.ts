@@ -223,10 +223,10 @@ export const useFaceMesh = (
     ctx.save();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Snowflakes if active (shared)
-    if (stickerRef.current === "snowflakes") {
-      drawSnowflakes(ctx, snowflakesRef.current, canvas.width, canvas.height);
-    }
+    // // Draw Snowflakes if active (shared)
+    // if (stickerRef.current === "snowflakes") {
+    //   drawSnowflakes(ctx, snowflakesRef.current, canvas.width, canvas.height);
+    // }
 
     // --- Hand Gesture Logic ---
     let newX = sparkyStateRef.current.x;
