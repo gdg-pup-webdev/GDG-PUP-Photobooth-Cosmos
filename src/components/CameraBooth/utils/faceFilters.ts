@@ -27,15 +27,17 @@ export interface Snowflake {
 
 // ── Cosmos-themed sticker filters ──
 export const STICKER_FILTERS: Filter[] = [
-  { id: "none",           name: "None",         emoji: "❌", description: "No sticker" },
+  { id: "none",           name: "None",         emoji: "❌",  description: "No sticker" },
   { id: "astronaut",      name: "Astronaut",    emoji: "🧑‍🚀", description: "Space helmet" },
-  { id: "alien_antennae", name: "Alien",        emoji: "👽", description: "Alien antennae" },
-  { id: "alien_ears",     name: "Alien Ears",   emoji: "🖖", description: "Pointy alien ears" },
-  { id: "space_visor",    name: "Space Visor",  emoji: "🕶️", description: "Cosmos visor" },
-  { id: "cosmos_text",    name: "Cosmos Text",  emoji: "✨", description: "Curved event title" },
-  { id: "stars",          name: "Stars",        emoji: "⭐", description: "Falling stars" },
-  { id: "sparky",         name: "Sparky",       emoji: "🐶", description: "Join Sparky!" },
-  { id: "debug",          name: "Debug",        emoji: "🔍", description: "View face coords" },
+  { id: "alien_antennae", name: "Alien",        emoji: "👽",  description: "Alien antennae" },
+  { id: "alien_ears",     name: "Alien Ears",   emoji: "🖖",  description: "Pointy alien ears" },
+  { id: "space_visor",    name: "Space Visor",  emoji: "🕶️",  description: "Cosmos visor" },
+  { id: "cosmos_text",    name: "Chainsec",     emoji: "💚",  description: "Arced chainsec text" },
+  { id: "stars",          name: "Stars",        emoji: "⭐",  description: "Falling stars" },
+  { id: "binary_rain",    name: "Binary Rain",  emoji: "💻",  description: "Matrix-style 0s and 1s" },
+  { id: "hacker_visor",   name: "Hacker Visor", emoji: "👁️",  description: "Green terminal HUD visor" },
+  { id: "hacker_scan",    name: "Face Scan",    emoji: "🔬",  description: "Wireframe face scan" },
+  { id: "hacker_glitch",  name: "Glitch",       emoji: "⚡",  description: "RGB glitch chromatic shift" },
 ];
 
 // ──────────────────────────────────────────────────────────
@@ -357,7 +359,7 @@ export const drawCosmosText = (
   );
 
   const radius   = faceW * 0.6 + faceH * 0.18;
-  const text     = "GDG PUP COSMOS 2026";
+  const text     = "chainsec";
   const fontSize = faceW * 0.13;
 
   ctx.save();
@@ -382,17 +384,17 @@ export const drawCosmosText = (
     ctx.scale(-1, 1);
 
     // Glow
-    ctx.shadowColor = "rgba(87, 202, 255, 0.9)";
+    ctx.shadowColor = "rgba(0, 255, 70, 0.9)";
     ctx.shadowBlur  = 14;
 
     const tGrad = ctx.createLinearGradient(0, -fontSize / 2, 0, fontSize / 2);
-    tGrad.addColorStop(0,   "#AEEEFF");
-    tGrad.addColorStop(0.5, "#57CAFF");
-    tGrad.addColorStop(1,   "#4285F4");
+    tGrad.addColorStop(0,   "#AFFFB0");
+    tGrad.addColorStop(0.5, "#00FF41");
+    tGrad.addColorStop(1,   "#00AA2A");
     ctx.fillStyle = tGrad;
     ctx.fillText(char, 0, 0);
 
-    ctx.strokeStyle = "rgba(0,0,60,0.6)";
+    ctx.strokeStyle = "rgba(0, 20, 0, 0.7)";
     ctx.lineWidth   = 1.5;
     ctx.strokeText(char, 0, 0);
     ctx.restore();
@@ -415,7 +417,7 @@ export const drawCosmosText = (
       ctx.moveTo(0, 0);
       ctx.lineTo(Math.cos(a) * ss, Math.sin(a) * ss);
     }
-    ctx.strokeStyle = `rgba(87, 202, 255, ${0.6 + Math.sin(Date.now() * 0.008 + i) * 0.3})`;
+    ctx.strokeStyle = `rgba(0, 255, 65, ${0.6 + Math.sin(Date.now() * 0.008 + i) * 0.3})`;
     ctx.lineWidth   = 1.8;
     ctx.lineCap     = "round";
     ctx.stroke();
@@ -590,84 +592,396 @@ export const drawSpaceVisor = (
 export const drawGlasses = drawSpaceVisor;
 
 // ──────────────────────────────────────────────────────────
-//  🔍  DEBUG MESH (unchanged)
+//  �  BINARY RAIN  (Matrix-style 0/1 columns)
 // ──────────────────────────────────────────────────────────
-export const drawDebugMesh = (
+// We keep a stable column state in module scope so it persists across frames
+interface BinaryCol { x: number; y: number; speed: number; chars: string[] }
+let _binaryCols: BinaryCol[] | null = null;
+
+export const drawBinaryRain = (
+  ctx: CanvasRenderingContext2D,
+  snowflakes: Snowflake[], // reused as per-column state carrier
+  width: number,
+  height: number
+) => {
+  const colW    = 18;
+  const nCols   = Math.ceil(width / colW);
+  const fontSize = 14;
+
+  // Init / resize columns
+  if (!_binaryCols || _binaryCols.length !== nCols) {
+    _binaryCols = Array.from({ length: nCols }, (_, i) => ({
+      x:     i * colW + colW / 2,
+      y:     Math.random() * height,
+      speed: 40 + Math.random() * 80,
+      chars: Array.from({ length: Math.ceil(height / fontSize) + 2 }, () =>
+        Math.random() > 0.5 ? "1" : "0"
+      ),
+    }));
+  }
+
+  ctx.save();
+  ctx.font = `bold ${fontSize}px 'Courier New', monospace`;
+  ctx.textAlign    = "center";
+  ctx.textBaseline = "middle";
+
+  const now = Date.now() * 0.001;
+
+  _binaryCols.forEach((col) => {
+    // Advance head
+    col.y += col.speed * 0.016; // ~60fps delta approx
+    if (col.y > height + fontSize * 2) col.y = -fontSize * 2;
+
+    const colLen = col.chars.length;
+    for (let j = 0; j < colLen; j++) {
+      const cy = col.y - j * fontSize;
+      if (cy < -fontSize || cy > height + fontSize) continue;
+
+      const t = j / colLen;
+      // Head char: bright white
+      if (j === 0) {
+        ctx.shadowColor = "#00FF41";
+        ctx.shadowBlur  = 12;
+        ctx.fillStyle   = "#FFFFFF";
+      } else {
+        ctx.shadowColor = "rgba(0, 255, 65, 0.4)";
+        ctx.shadowBlur  = 6;
+        // Fade from bright green to dark
+        const alpha = Math.max(0.08, 1 - t * 1.1);
+        ctx.fillStyle = `rgba(0, ${Math.floor(180 + 75 * (1 - t))}, ${Math.floor(30 * (1 - t))}, ${alpha})`;
+      }
+
+      // Randomly mutate a char for the "typing" feel
+      if (Math.random() < 0.02) {
+        col.chars[j] = Math.random() > 0.5 ? "1" : "0";
+      }
+
+      ctx.fillText(col.chars[j], col.x, cy);
+    }
+  });
+
+  ctx.restore();
+};
+
+// ──────────────────────────────────────────────────────────
+//  👁️  HACKER VISOR  (green terminal HUD over eyes)
+// ──────────────────────────────────────────────────────────
+export const drawHackerVisor = (
   ctx: CanvasRenderingContext2D,
   landmarks: Landmark[],
   width: number,
   height: number
 ) => {
-  landmarks.forEach((landmark, index) => {
-    const x = landmark.x * width;
-    const y = landmark.y * height;
+  const leftEyeOuter  = landmarks[33];
+  const leftEyeInner  = landmarks[133];
+  const rightEyeInner = landmarks[362];
+  const rightEyeOuter = landmarks[263];
+  const leftEyeTop    = landmarks[159];
+  const leftEyeBottom = landmarks[145];
+  const leftTemple    = landmarks[71];
+  const rightTemple   = landmarks[301];
+  const forehead      = landmarks[10];
+  const chin          = landmarks[152];
+  const noseBridge    = landmarks[6];
 
-    let color  = "rgba(0, 255, 0, 0.5)";
-    let radius = 2;
+  const faceW   = Math.abs((rightEyeOuter.x - leftEyeOuter.x) * width) * 2.0;
+  const faceH   = Math.abs((chin.y - forehead.y) * height);
+  const lensGap = width * 0.016;
+  const leftCX  = ((leftEyeOuter.x + leftEyeInner.x) / 2) * width - lensGap;
+  const rightCX = ((rightEyeOuter.x + rightEyeInner.x) / 2) * width + lensGap;
+  const lensY   = ((leftEyeTop.y + leftEyeBottom.y) / 2) * height;
 
-    if (index === 1)  { color = "#ff0000"; radius = 6; }
-    else if (index === 10)  { color = "#00ff00"; radius = 6; }
-    else if (index === 152) { color = "#0000ff"; radius = 6; }
-    else if ([33, 133, 362, 263].includes(index))  { color = "#ffff00"; radius = 4; }
-    else if ([234, 454].includes(index)) { color = "#ff00ff"; radius = 4; }
+  const eyeW    = Math.abs(leftEyeInner.x - leftEyeOuter.x) * width * 2.1;
+  const eyeH    = eyeW * 0.62;
+  const lensR   = eyeH * 0.3;
 
+  const angle = Math.atan2(
+    (rightTemple.y - leftTemple.y) * height,
+    (rightTemple.x - leftTemple.x) * width
+  );
+
+  ctx.save();
+  ctx.translate((leftCX + rightCX) / 2, lensY);
+  ctx.rotate(angle);
+  ctx.translate(-(leftCX + rightCX) / 2, -lensY);
+
+  const t = Date.now() * 0.001;
+  const scanY = lensY - eyeH / 2 + ((t * 60) % eyeH);
+
+  const drawLens = (cx: number) => {
+    // Dark green lens
+    const lg = ctx.createRadialGradient(cx, lensY, 0, cx, lensY, eyeW * 0.6);
+    lg.addColorStop(0,   "rgba(0, 60, 10, 0.82)");
+    lg.addColorStop(0.6, "rgba(0, 30, 5, 0.88)");
+    lg.addColorStop(1,   "rgba(0, 10, 0, 0.92)");
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = color;
+    ctx.roundRect(cx - eyeW / 2, lensY - eyeH / 2, eyeW, eyeH, lensR);
+    ctx.fillStyle = lg;
     ctx.fill();
-  });
 
-  ctx.font        = "12px monospace";
-  ctx.fillStyle   = "#ffffff";
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth   = 3;
+    // Scan line
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(cx - eyeW / 2, lensY - eyeH / 2, eyeW, eyeH, lensR);
+    ctx.clip();
+    const sl = ctx.createLinearGradient(cx, scanY - 4, cx, scanY + 4);
+    sl.addColorStop(0,   "rgba(0,255,65,0)");
+    sl.addColorStop(0.5, "rgba(0,255,65,0.7)");
+    sl.addColorStop(1,   "rgba(0,255,65,0)");
+    ctx.fillStyle = sl;
+    ctx.fillRect(cx - eyeW / 2, scanY - 4, eyeW, 8);
+    ctx.restore();
 
-  [{ idx: 1, label: "#1 Nose" }, { idx: 10, label: "#10 Forehead" }, { idx: 152, label: "#152 Chin" }]
-    .forEach(({ idx, label }) => {
-      const x = landmarks[idx].x * width + 10;
-      const y = landmarks[idx].y * height;
-      ctx.strokeText(label, x, y);
-      ctx.fillText(label, x, y);
-    });
+    // HUD grid lines
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(cx - eyeW / 2, lensY - eyeH / 2, eyeW, eyeH, lensR);
+    ctx.clip();
+    ctx.strokeStyle = "rgba(0,255,65,0.12)";
+    ctx.lineWidth   = 0.5;
+    for (let gx = cx - eyeW / 2; gx < cx + eyeW / 2; gx += 10) {
+      ctx.beginPath(); ctx.moveTo(gx, lensY - eyeH / 2); ctx.lineTo(gx, lensY + eyeH / 2); ctx.stroke();
+    }
+    for (let gy = lensY - eyeH / 2; gy < lensY + eyeH / 2; gy += 8) {
+      ctx.beginPath(); ctx.moveTo(cx - eyeW / 2, gy); ctx.lineTo(cx + eyeW / 2, gy); ctx.stroke();
+    }
+    ctx.restore();
+
+    // Green glow frame
+    ctx.beginPath();
+    ctx.roundRect(cx - eyeW / 2, lensY - eyeH / 2, eyeW, eyeH, lensR);
+    ctx.shadowColor = "#00FF41";
+    ctx.shadowBlur  = 12;
+    ctx.strokeStyle = `rgba(0, 255, 65, ${0.7 + Math.sin(t * 3) * 0.2})`;
+    ctx.lineWidth   = eyeH * 0.1;
+    ctx.stroke();
+  };
+
+  drawLens(leftCX);
+  drawLens(rightCX);
+
+  // Bridge
+  ctx.shadowColor = "#00FF41";
+  ctx.shadowBlur  = 8;
+  ctx.strokeStyle = "rgba(0,255,65,0.75)";
+  ctx.lineWidth   = eyeH * 0.12;
+  ctx.lineCap     = "round";
+  ctx.beginPath();
+  ctx.moveTo(leftCX + eyeW / 2, lensY);
+  ctx.lineTo(rightCX - eyeW / 2, lensY);
+  ctx.stroke();
+
+  // Temple arms
+  ctx.lineWidth   = eyeH * 0.08;
+  ctx.strokeStyle = "rgba(0,255,65,0.55)";
+  ctx.beginPath();
+  ctx.moveTo(leftCX - eyeW / 2, lensY);
+  ctx.lineTo(leftTemple.x * width - 18, leftTemple.y * height);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(rightCX + eyeW / 2, lensY);
+  ctx.lineTo(rightTemple.x * width + 18, rightTemple.y * height);
+  ctx.stroke();
+
+  // HUD readout labels
+  ctx.shadowBlur  = 6;
+  ctx.font        = `bold ${faceH * 0.05}px 'Courier New', monospace`;
+  ctx.fillStyle   = `rgba(0,255,65,${0.55 + Math.sin(t * 4) * 0.2})`;
+  ctx.textAlign   = "left";
+  ctx.fillText("ACQUIRING TARGET", leftCX - eyeW / 2, lensY + eyeH / 2 + faceH * 0.06);
+  ctx.textAlign   = "right";
+  const hex = (Math.floor(t * 100) % 0xFFFF).toString(16).toUpperCase().padStart(4, "0");
+  ctx.fillText(`0x${hex}`, rightCX + eyeW / 2, lensY + eyeH / 2 + faceH * 0.06);
+
+  ctx.restore();
 };
 
 // ──────────────────────────────────────────────────────────
-//  🐶  DRAW SPARKY (unchanged logic)
+//  🔬  HACKER FACE SCAN  (wireframe landmark overlay)
 // ──────────────────────────────────────────────────────────
-export const drawSparky = (
+// Face mesh edge pairs (subset of MediaPipe face tesselation)
+const FACE_EDGES: [number, number][] = [
+  // Jaw
+  [10,338],[338,297],[297,332],[332,284],[284,251],[251,389],[389,356],[356,454],
+  [454,323],[323,361],[361,288],[288,397],[397,365],[365,379],[379,378],[378,400],
+  [400,377],[377,152],[152,148],[148,176],[176,149],[149,150],[150,136],[136,172],
+  [172,58],[58,132],[132,93],[93,234],[234,127],[127,162],[162,21],[21,54],[54,103],
+  [103,67],[67,109],[109,10],
+  // Left eye
+  [33,7],[7,163],[163,144],[144,145],[145,153],[153,154],[154,155],[155,133],
+  [33,246],[246,161],[161,160],[160,159],[159,158],[158,157],[157,173],[173,133],
+  // Right eye
+  [362,382],[382,381],[381,380],[380,374],[374,373],[373,390],[390,249],[249,263],
+  [362,398],[398,384],[384,385],[385,386],[386,387],[387,388],[388,466],[466,263],
+  // Nose
+  [1,2],[2,98],[98,97],[97,2],[2,326],[326,327],[327,2],
+  // Lips outer
+  [61,185],[185,40],[40,39],[39,37],[37,0],[0,267],[267,269],[269,270],[270,409],
+  [409,291],[61,146],[146,91],[91,181],[181,84],[84,17],[17,314],[314,405],
+  [405,321],[321,375],[375,291],
+];
+
+export const drawHackerScan = (
   ctx: CanvasRenderingContext2D,
-  image: HTMLImageElement,
+  landmarks: Landmark[],
   width: number,
-  height: number,
-  xPct?: number,
-  yPct?: number,
-  scale?: number
+  height: number
 ) => {
-  if (!image) return;
-
-  const currentScale = scale ?? 0.8;
-  const currentX     = xPct ?? 0.5;
-  const currentY     = yPct ?? 1.0;
-
-  const sparkyHeight = height * currentScale;
-  const aspectRatio  = image.width / image.height;
-  const sparkyWidth  = sparkyHeight * aspectRatio;
-
-  let x: number, y: number;
-  if (xPct !== undefined && yPct !== undefined) {
-    x = currentX * width - sparkyWidth / 2;
-    y = currentY * height - sparkyHeight / 2;
-  } else {
-    x = (width - sparkyWidth) / 2;
-    y = height - sparkyHeight;
-  }
+  const t      = Date.now() * 0.001;
+  const pulse  = 0.5 + Math.sin(t * 2.5) * 0.4;
+  const glitch = Math.random() < 0.04; // occasional glitch flash
 
   ctx.save();
-  ctx.imageSmoothingEnabled    = true;
-  ctx.imageSmoothingQuality    = "high";
-  ctx.shadowColor    = "rgba(0,0,0,0.5)";
-  ctx.shadowBlur     = 20;
-  ctx.shadowOffsetY  = 10;
-  ctx.drawImage(image, x, y, sparkyWidth, sparkyHeight);
+
+  // Wireframe mesh
+  ctx.lineWidth   = 1;
+  ctx.shadowBlur  = 4;
+  ctx.shadowColor = "#00FF41";
+  FACE_EDGES.forEach(([a, b]) => {
+    if (a >= landmarks.length || b >= landmarks.length) return;
+    const ax = landmarks[a].x * width;
+    const ay = landmarks[a].y * height;
+    const bx = landmarks[b].x * width;
+    const by = landmarks[b].y * height;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.lineTo(bx, by);
+    ctx.strokeStyle = glitch
+      ? `rgba(255, ${Math.floor(Math.random() * 255)}, 0, 0.7)`
+      : `rgba(0, 255, 65, ${0.35 + pulse * 0.3})`;
+    ctx.stroke();
+  });
+
+  // Landmark dots (key points only)
+  const keyPts = [10, 152, 234, 454, 1, 33, 133, 362, 263, 61, 291];
+  keyPts.forEach((idx) => {
+    if (idx >= landmarks.length) return;
+    const x = landmarks[idx].x * width;
+    const y = landmarks[idx].y * height;
+    ctx.beginPath();
+    ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle   = `rgba(0, 255, 65, ${0.6 + pulse * 0.35})`;
+    ctx.shadowBlur  = 8;
+    ctx.shadowColor = "#00FF41";
+    ctx.fill();
+  });
+
+  // Forehead HUD overlay
+  const fX  = landmarks[10].x * width;
+  const fY  = landmarks[10].y * height;
+  const faceW = Math.abs((landmarks[454].x - landmarks[234].x) * width);
+
+  ctx.font      = `${faceW * 0.07}px 'Courier New', monospace`;
+  ctx.textAlign = "center";
+  ctx.shadowBlur  = 10;
+  ctx.shadowColor = "#00FF41";
+  ctx.fillStyle   = `rgba(0, 255, 65, ${0.6 + pulse * 0.3})`;
+  ctx.fillText("[ FACE IDENTIFIED ]", fX, fY - faceW * 0.22);
+
+  const conf = (85 + Math.sin(t * 1.3) * 10).toFixed(1);
+  ctx.font      = `${faceW * 0.055}px 'Courier New', monospace`;
+  ctx.fillStyle = `rgba(0, 255, 65, ${0.5 + pulse * 0.25})`;
+  ctx.fillText(`CONF: ${conf}%`, fX, fY - faceW * 0.09);
+
+  ctx.restore();
+};
+
+// ──────────────────────────────────────────────────────────
+//  ⚡  HACKER GLITCH  (RGB chromatic aberration + scanlines)
+// ──────────────────────────────────────────────────────────
+export const drawHackerGlitch = (
+  ctx: CanvasRenderingContext2D,
+  landmarks: Landmark[],
+  width: number,
+  height: number
+) => {
+  if (!landmarks.length) return;
+
+  const t      = Date.now() * 0.001;
+  const faceW  = Math.abs((landmarks[454].x - landmarks[234].x) * width);
+  const faceH  = Math.abs((landmarks[152].y - landmarks[10].y) * height);
+  const cx     = ((landmarks[234].x + landmarks[454].x) / 2) * width;
+  const cy     = ((landmarks[10].y  + landmarks[152].y) / 2) * height;
+
+  ctx.save();
+
+  // ── Chromatic aberration rings ──
+  const shift = 4 + Math.sin(t * 6) * 3;
+  [
+    { dx: -shift, dy: 0,  color: "rgba(255,0,0,0.35)" },
+    { dx:  shift, dy: 0,  color: "rgba(0,255,65,0.35)" },
+    { dx:  0,     dy: -shift * 0.5, color: "rgba(0,80,255,0.35)" },
+  ].forEach(({ dx, dy, color }) => {
+    ctx.beginPath();
+    ctx.ellipse(cx + dx, cy + dy, faceW * 0.58, faceH * 0.62, 0, 0, Math.PI * 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = 2;
+    ctx.shadowColor = color;
+    ctx.shadowBlur  = 8;
+    ctx.stroke();
+  });
+
+  // ── Scanlines over face area ──
+  const lineSpacing = 4;
+  const top    = cy - faceH * 0.6;
+  const bottom = cy + faceH * 0.6;
+  const left   = cx - faceW * 0.6;
+  const right  = cx + faceW * 0.6;
+
+  ctx.shadowBlur = 0;
+  for (let y = top; y < bottom; y += lineSpacing) {
+    const alpha = 0.08 + (Math.sin(y * 0.3 + t * 8) > 0.95 ? 0.25 : 0);
+    ctx.beginPath();
+    ctx.moveTo(left, y);
+    ctx.lineTo(right, y);
+    ctx.strokeStyle = `rgba(0,255,65,${alpha})`;
+    ctx.lineWidth   = 1;
+    ctx.stroke();
+  }
+
+  // ── Random glitch blocks ──
+  const nBlocks = 3 + Math.floor(Math.random() * 4);
+  for (let i = 0; i < nBlocks; i++) {
+    if (Math.random() > 0.35) continue;
+    const bx = left + Math.random() * faceW * 1.2;
+    const by = top  + Math.random() * faceH * 1.2;
+    const bw = 20   + Math.random() * 80;
+    const bh = 3    + Math.random() * 12;
+    const r  = Math.floor(Math.random() * 3);
+    const colors = ["rgba(255,0,80,0.55)", "rgba(0,255,65,0.55)", "rgba(0,100,255,0.55)"];
+    ctx.fillStyle = colors[r];
+    ctx.fillRect(bx, by, bw, bh);
+  }
+
+  // ── HUD corner brackets ──
+  const bSize = faceW * 0.18;
+  const pad   = faceW * 0.06;
+  const bx0   = cx - faceW * 0.58;
+  const by0   = cy - faceH * 0.62;
+  const bx1   = cx + faceW * 0.58;
+  const by1   = cy + faceH * 0.62;
+  const bAlpha = 0.55 + Math.sin(t * 4) * 0.3;
+
+  ctx.strokeStyle = `rgba(0,255,65,${bAlpha})`;
+  ctx.lineWidth   = 2;
+  ctx.shadowColor = "#00FF41";
+  ctx.shadowBlur  = 10;
+  ctx.lineCap     = "round";
+
+  [[bx0, by0, 1, 1], [bx1, by0, -1, 1], [bx0, by1, 1, -1], [bx1, by1, -1, -1]].forEach(([x, y, sx, sy]) => {
+    ctx.beginPath(); ctx.moveTo(x + sx * bSize, y); ctx.lineTo(x, y); ctx.lineTo(x, y + sy * bSize); ctx.stroke();
+  });
+
+  // ── Glitch text label ──
+  const label = Math.random() < 0.1
+    ? `ERR_0x${Math.floor(Math.random() * 0xFFFF).toString(16).toUpperCase()}`
+    : "[ SIGNAL CORRUPTED ]";
+  ctx.font      = `bold ${faceW * 0.07}px 'Courier New', monospace`;
+  ctx.textAlign = "center";
+  ctx.fillStyle = `rgba(0,255,65,${0.5 + Math.sin(t * 5) * 0.4})`;
+  ctx.shadowBlur  = 12;
+  ctx.shadowColor = "#00FF41";
+  ctx.fillText(label, cx + (Math.random() < 0.1 ? (Math.random() - 0.5) * 8 : 0), by0 - faceH * 0.05);
+
   ctx.restore();
 };

@@ -1,13 +1,9 @@
 import nodemailer from "nodemailer";
 import { getEmailTemplate } from "./emailTemplate";
 
-// const emailBcc = [
-//   "geraldberongoy04@gmail.com",
-//   "daguinotaserwin5@gmail.com",
-//   "salesrhandie@gmail.com",
-// ];
-const emailCc = ["gdgpup.technologydepartment@gmail.com", "gdgpupwebdev@gmail.com"];
-// const emailCc = ["gdgpupwebdev@gmail.com"];
+const emailBcc = ["gdgpupwebdev@gmail.com"];
+const emailCc = ["gdgpup.technologydepartment@gmail.com"];
+// const emailCc = ["salesrhandie@gmail.com"];
 
 export async function POST(req: Request) {
   try {
@@ -77,9 +73,9 @@ export async function POST(req: Request) {
       from: `"GDG Photobooth" <${process.env.SMTP_USER}>`,
       to: email,
       cc: emailCc.join(", ") || "",
-      // bcc: emailBcc.join(", ") || "",
-      subject: "🎄 Santa Doesn't Know U Like I Do - Your Design Jam Photos! ✨",
-      text: "Hey Sparkmates! Your photostrip from the UI/UX 2nd Study Jam is attached. Thanks for joining our Design Jam!",
+      bcc: emailBcc.join(", ") || "",
+      subject: "✨ Your CHAINSEC Photostrip is Here! | GDG on Campus PUP",
+      text: "Hey Sparkmate! Your photostrip from CHAINSEC: A Blockchain Security Fundamentals Jam is attached. Thanks for joining us at GDG on Campus PUP!",
       html: htmlContent,
       attachments: [
         {

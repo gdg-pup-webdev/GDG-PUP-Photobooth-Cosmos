@@ -6,8 +6,10 @@ import {
   drawSpaceVisor,
   drawCosmosText,
   drawStars,
-  drawSparky,
-  drawDebugMesh,
+  drawBinaryRain,
+  drawHackerVisor,
+  drawHackerScan,
+  drawHackerGlitch,
   Snowflake,
   Landmark
 } from '../utils/faceFilters';
@@ -36,8 +38,6 @@ export const useFaceMesh = (
   const [isFaceDetected, setIsFaceDetected] = useState(false);
   const faceMeshRef = useRef<any>(null);
   const snowflakesRef = useRef<Snowflake[]>([]);
-  const handsRef = useRef<any>(null);
-  const sparkyImageRef = useRef<HTMLImageElement | null>(null);
 
   // ===== PERFORMANCE: Cached results for frame reuse =====
   const cachedResultsRef = useRef<any>(null);
@@ -45,14 +45,6 @@ export const useFaceMesh = (
   const currentFPSRef = useRef<number>(30);
   const lastStateUpdateRef = useRef<number>(0);
   const faceCountRef = useRef<number>(0);
-
-  // Sparky interaction state
-  const sparkyStateRef = useRef({
-    x: undefined as number | undefined,
-    y: undefined as number | undefined,
-    scale: 0.8, // Fixed default scale
-    isGrabbing: false // Track if hand is currently grabbing
-  });
 
   const requestRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number>(0);
@@ -75,20 +67,6 @@ export const useFaceMesh = (
     if (currentSticker === 'none' && canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d');
       if (ctx) ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    }
-
-    // Load Sparky image if selected
-    if (currentSticker === 'sparky' && !sparkyImageRef.current) {
-      const img = new Image();
-      img.src = '/photobooth/photobooth-sparky-element.png';
-      img.onload = () => {
-        sparkyImageRef.current = img;
-        console.log('✅ Sparky image loaded successfully!', img.width, 'x', img.height);
-      };
-      img.onerror = (e) => {
-        console.error('❌ Failed to load Sparky image:', e);
-        console.error('Attempted path:', img.src);
-      };
     }
   }, [currentSticker]);
 
@@ -119,9 +97,12 @@ export const useFaceMesh = (
     // Performance mode: simplify rendering when many faces
     const isPerformanceMode = faceCount >= 2;
 
-    // Always draw stars if selected (even without face)
+    // Draw effects that don't need a face (fullscreen)
     if (filter === "stars") {
       drawStars(ctx, snowflakesRef.current, canvas.width, canvas.height);
+    }
+    if (filter === "binary_rain") {
+      drawBinaryRain(ctx, snowflakesRef.current, canvas.width, canvas.height);
     }
 
     if (results?.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
@@ -151,8 +132,14 @@ export const useFaceMesh = (
           case "space_visor":
             drawSpaceVisor(ctx, landmarks, canvas.width, canvas.height);
             break;
-          case "debug":
-            drawDebugMesh(ctx, landmarks, canvas.width, canvas.height);
+          case "hacker_visor":
+            drawHackerVisor(ctx, landmarks, canvas.width, canvas.height);
+            break;
+          case "hacker_scan":
+            drawHackerScan(ctx, landmarks, canvas.width, canvas.height);
+            break;
+          case "hacker_glitch":
+            drawHackerGlitch(ctx, landmarks, canvas.width, canvas.height);
             break;
         }
       });
@@ -212,98 +199,7 @@ export const useFaceMesh = (
     ctx.restore();
   }, [renderCachedResults]);
 
-  // Handle Hand Results (for Sparky)
-  const onHandResults = useCallback((results: any) => {
-    const canvas = canvasRef.current;
-    if (!canvas || !sparkyImageRef.current) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    ctx.save();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // // Draw Snowflakes if active (shared)
-    // if (stickerRef.current === "snowflakes") {
-    //   drawSnowflakes(ctx, snowflakesRef.current, canvas.width, canvas.height);
-    // }
-
-    // --- Hand Gesture Logic ---
-    let newX = sparkyStateRef.current.x;
-    let newY = sparkyStateRef.current.y;
-    const newScale = sparkyStateRef.current.scale;
-    let isGrabbing = sparkyStateRef.current.isGrabbing;
-
-    // Initialize default position if not set (center-bottom)
-    if (newX === undefined || newY === undefined) {
-      newX = 0.5;
-      newY = 0.85;
-    }
-
-    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-      const hand = results.multiHandLandmarks[0];
-      const isHandOpen = isHandOpenDetection(hand);
-
-      const palmCenter = hand[9];
-      const targetX = palmCenter.x;
-      const targetY = palmCenter.y;
-
-      if (isHandOpen) {
-        newX = newX + (targetX - newX) * 0.2;
-        newY = newY + (targetY - newY) * 0.2;
-        isGrabbing = true;
-      } else {
-        isGrabbing = false;
-      }
-    } else {
-      isGrabbing = false;
-    }
-
-    sparkyStateRef.current = {
-      x: newX,
-      y: newY,
-      scale: newScale,
-      isGrabbing
-    };
-
-    drawSparky(
-      ctx,
-      sparkyImageRef.current,
-      canvas.width,
-      canvas.height,
-      newX,
-      newY,
-      newScale
-    );
-
-    ctx.restore();
-  }, []);
-
-  // Helper function to detect if hand is open
-  const isHandOpenDetection = (hand: any[]): boolean => {
-    const palmBase = hand[0];
-
-    const fingers = [
-      { tip: hand[8], pip: hand[6] },
-      { tip: hand[12], pip: hand[10] },
-      { tip: hand[16], pip: hand[14] },
-      { tip: hand[20], pip: hand[18] }
-    ];
-
-    let extendedCount = 0;
-    fingers.forEach(finger => {
-      const tipDist = Math.hypot(finger.tip.x - palmBase.x, finger.tip.y - palmBase.y);
-      const pipDist = Math.hypot(finger.pip.x - palmBase.x, finger.pip.y - palmBase.y);
-
-      if (tipDist > pipDist * 1.1) {
-        extendedCount++;
-      }
-    });
-
-    return extendedCount >= 3;
-  };
-
-  // Initialize FaceMesh or Hands based on sticker
+  // Initialize FaceMesh based on sticker
   useEffect(() => {
     const init = async () => {
       try {
@@ -315,43 +211,8 @@ export const useFaceMesh = (
           requestRef.current = null;
         }
 
-        const isSparkyMode = stickerRef.current === 'sparky';
-
-        // 1. Initialize Hands for Sparky
-        if (isSparkyMode) {
-          if (!handsRef.current) {
-            let attempts = 0;
-            while (!(window as any).Hands && attempts < 100) {
-              await new Promise(r => setTimeout(r, 100));
-              attempts++;
-            }
-
-            if ((window as any).Hands) {
-              const HandsClass = (window as any).Hands;
-              const hands = new HandsClass({
-                locateFile: (file: string) => {
-                  return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-                }
-              });
-
-              hands.setOptions({
-                maxNumHands: 2,
-                modelComplexity: 0, // 🔥 PERFORMANCE: Reduced from 1 to 0
-                minDetectionConfidence: 0.5,
-                minTrackingConfidence: 0.5
-              });
-
-              hands.onResults((results: any) => {
-                if (isMountedRef.current) onHandResults(results);
-              });
-
-              handsRef.current = hands;
-              console.log("✅ Hands initialized (optimized mode)");
-            }
-          }
-        }
-        // 2. Initialize FaceMesh for others
-        else {
+        // Initialize FaceMesh
+        {
           if (!faceMeshRef.current) {
             let attempts = 0;
             while (!(window as any).FaceMesh && attempts < 100) {
@@ -402,25 +263,6 @@ export const useFaceMesh = (
               canvas.height = video.videoHeight;
             }
 
-            // Fallback: If Sparky is selected but Hands not ready yet, draw Sparky anyway
-            if (stickerRef.current === 'sparky' && !handsRef.current) {
-              if (sparkyImageRef.current) {
-                const ctx = canvas.getContext('2d');
-                if (ctx) {
-                  ctx.save();
-                  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                  let { x, y, scale } = sparkyStateRef.current;
-                  if (x === undefined || y === undefined) {
-                    x = 0.5; y = 0.85;
-                  }
-
-                  drawSparky(ctx, sparkyImageRef.current, canvas.width, canvas.height, x, y, scale);
-                  ctx.restore();
-                }
-              }
-            }
-
             if (stickerRef.current !== 'none') {
               frameCountRef.current++;
 
@@ -433,9 +275,7 @@ export const useFaceMesh = (
                 if (shouldRunDetection) {
                   try {
                     // Route to correct detector
-                    if (stickerRef.current === 'sparky' && handsRef.current) {
-                      await handsRef.current.send({ image: video });
-                    } else if (faceMeshRef.current) {
+                    if (faceMeshRef.current) {
                       await faceMeshRef.current.send({ image: video });
                     }
                   } catch (err) { }
@@ -467,7 +307,7 @@ export const useFaceMesh = (
 
     return () => {
     };
-  }, [videoRef, onResults, onHandResults, currentSticker, renderCachedResults]);
+  }, [videoRef, onResults, currentSticker, renderCachedResults]);
 
   // Cleanup on unmount only
   useEffect(() => {
@@ -476,10 +316,6 @@ export const useFaceMesh = (
       if (faceMeshRef.current) {
         faceMeshRef.current.close();
         faceMeshRef.current = null;
-      }
-      if (handsRef.current) {
-        handsRef.current.close();
-        handsRef.current = null;
       }
     };
   }, []);
