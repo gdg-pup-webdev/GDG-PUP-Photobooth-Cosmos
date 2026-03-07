@@ -110,7 +110,7 @@ export default function Decorations() {
       </div>
 
       {/* Cirby mascot - top left with Magnet */}
-      <div className="fixed top-0 left-0 z-20">
+      <div className="fixed top-0 left-0 z-10">
         <Magnet padding={80} magnetStrength={4}>
           <div
             className="w-32 md:w-44 h-48 md:h-64 relative opacity-80"
@@ -131,7 +131,7 @@ export default function Decorations() {
       </div>
 
       {/* Sparky mascot - top right with Magnet */}
-      <div className="fixed top-0 right-0 z-20">
+      <div className="fixed top-0 right-0 z-10">
         <Magnet padding={80} magnetStrength={4}>
           <div
             className="w-40 md:w-56 h-52 md:h-72 relative opacity-80"
