@@ -39,7 +39,14 @@ export default function CameraBooth(_props: CameraBoothProps) {
   const [previewImageIndex, setPreviewImageIndex] = useState(0);
 
   // Custom hooks
-  const { videoRef, playVideo } = useCamera();
+  const {
+    videoRef,
+    playVideo,
+    cameras,
+    currentCameraId,
+    setCurrentCameraId,
+    cameraError,
+  } = useCamera();
 
   // Face Mesh Hook (for Stickers)
   // We initialize it here so it runs alongside the camera
@@ -166,6 +173,11 @@ export default function CameraBooth(_props: CameraBoothProps) {
               currentFilter={currentFilter}
               currentShotIndex={currentShotIndex}
               onFilterClick={() => setShowFilterModal(true)}
+              cameras={cameras}
+              currentCameraId={currentCameraId}
+              onCameraChange={setCurrentCameraId}
+              cameraError={cameraError}
+              cameraDisabled={countdown !== null}
             />
 
             {/* Review Section */}
