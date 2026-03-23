@@ -32,7 +32,7 @@ export const STICKER_FILTERS: Filter[] = [
   { id: "alien_antennae", name: "Alien",        emoji: "👽",  description: "Alien antennae" },
   { id: "alien_ears",     name: "Alien Ears",   emoji: "🖖",  description: "Pointy alien ears" },
   { id: "space_visor",    name: "Space Visor",  emoji: "🕶️",  description: "Cosmos visor" },
-  { id: "cosmos_text",    name: "Chainsec",     emoji: "💚",  description: "Arced chainsec text" },
+  { id: "cosmos_text",    name: "Cosmos 2026",  emoji: "✨",  description: "Arced cosmos 2026 text" },
   { id: "stars",          name: "Stars",        emoji: "⭐",  description: "Falling stars" },
   { id: "binary_rain",    name: "Binary Rain",  emoji: "💻",  description: "Matrix-style 0s and 1s" },
   { id: "hacker_visor",   name: "Hacker Visor", emoji: "👁️",  description: "Green terminal HUD visor" },
@@ -359,7 +359,7 @@ export const drawCosmosText = (
   );
 
   const radius   = faceW * 0.6 + faceH * 0.18;
-  const text     = "chainsec";
+  const text     = "cosmos 2026";
   const fontSize = faceW * 0.13;
 
   ctx.save();
@@ -384,17 +384,17 @@ export const drawCosmosText = (
     ctx.scale(-1, 1);
 
     // Glow
-    ctx.shadowColor = "rgba(0, 255, 70, 0.9)";
+    ctx.shadowColor = "rgba(230, 203, 241, 0.9)";
     ctx.shadowBlur  = 14;
 
     const tGrad = ctx.createLinearGradient(0, -fontSize / 2, 0, fontSize / 2);
-    tGrad.addColorStop(0,   "#AFFFB0");
-    tGrad.addColorStop(0.5, "#00FF41");
-    tGrad.addColorStop(1,   "#00AA2A");
+    tGrad.addColorStop(0,   "#F5E9F9");
+    tGrad.addColorStop(0.5, "#86D5FD");
+    tGrad.addColorStop(1,   "#C199D6");
     ctx.fillStyle = tGrad;
     ctx.fillText(char, 0, 0);
 
-    ctx.strokeStyle = "rgba(0, 20, 0, 0.7)";
+    ctx.strokeStyle = "rgba(20, 0, 30, 0.7)";
     ctx.lineWidth   = 1.5;
     ctx.strokeText(char, 0, 0);
     ctx.restore();
@@ -417,7 +417,7 @@ export const drawCosmosText = (
       ctx.moveTo(0, 0);
       ctx.lineTo(Math.cos(a) * ss, Math.sin(a) * ss);
     }
-    ctx.strokeStyle = `rgba(0, 255, 65, ${0.6 + Math.sin(Date.now() * 0.008 + i) * 0.3})`;
+    ctx.strokeStyle = `rgba(230, 203, 241, ${0.6 + Math.sin(Date.now() * 0.008 + i) * 0.3})`;
     ctx.lineWidth   = 1.8;
     ctx.lineCap     = "round";
     ctx.stroke();
