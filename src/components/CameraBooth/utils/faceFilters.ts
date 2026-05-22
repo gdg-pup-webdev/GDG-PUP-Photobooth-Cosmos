@@ -25,14 +25,14 @@ export interface Snowflake {
   angle: number;
 }
 
-// ── Cosmos-themed sticker filters ──
+// ── GDG PUP-themed sticker filters ──
 export const STICKER_FILTERS: Filter[] = [
   { id: "none",           name: "None",         emoji: "❌",  description: "No sticker" },
   { id: "astronaut",      name: "Astronaut",    emoji: "🧑‍🚀", description: "Space helmet" },
   { id: "alien_antennae", name: "Alien",        emoji: "👽",  description: "Alien antennae" },
   { id: "alien_ears",     name: "Alien Ears",   emoji: "🖖",  description: "Pointy alien ears" },
-  { id: "space_visor",    name: "Space Visor",  emoji: "🕶️",  description: "Cosmos visor" },
-  { id: "cosmos_text",    name: "Cosmos 2026",  emoji: "✨",  description: "Arced cosmos 2026 text" },
+  { id: "space_visor",    name: "Space Visor",  emoji: "🕶️",  description: "Futuristic visor" },
+  { id: "gdg_text",       name: "GDG PUP",      emoji: "✨",  description: "Arced GDG PUP text" },
   { id: "stars",          name: "Stars",        emoji: "⭐",  description: "Falling stars" },
   { id: "binary_rain",    name: "Binary Rain",  emoji: "💻",  description: "Matrix-style 0s and 1s" },
   { id: "hacker_visor",   name: "Hacker Visor", emoji: "👁️",  description: "Green terminal HUD visor" },
@@ -328,9 +328,9 @@ export const drawAlienEars = (
 };
 
 // ──────────────────────────────────────────────────────────
-//  ✨  COSMOS TEXT
+//  ✨  GDG PUP TEXT
 // ──────────────────────────────────────────────────────────
-export const drawCosmosText = (
+export const drawGDGPupText = (
   ctx: CanvasRenderingContext2D,
   landmarks: Landmark[],
   width: number,
@@ -359,7 +359,7 @@ export const drawCosmosText = (
   );
 
   const radius   = faceW * 0.6 + faceH * 0.18;
-  const text     = "cosmos 2026";
+  const text     = "gdg pup";
   const fontSize = faceW * 0.13;
 
   ctx.save();

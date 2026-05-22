@@ -55,7 +55,7 @@ function ShinyContent({ children }: { children: React.ReactNode }) {
   );
 }
 
-const cosmosStyle = {
+const shinyButtonStyle = {
   "--primary": "#57caff",
   borderColor: "rgba(87,202,255,0.3)",
   background:
@@ -82,7 +82,7 @@ export const ShinyButton = React.forwardRef<HTMLButtonElement, ShinyButtonProps>
               "inline-flex items-center justify-center hover:shadow-[0_0_24px_rgba(87,202,255,0.28)]",
               className
             )}
-            style={cosmosStyle}
+            style={shinyButtonStyle}
             {...animationProps}
           >
             <ShinyContent>{children}</ShinyContent>
@@ -99,7 +99,7 @@ export const ShinyButton = React.forwardRef<HTMLButtonElement, ShinyButtonProps>
           "hover:shadow-[0_0_24px_rgba(87,202,255,0.28)]",
           className
         )}
-        style={cosmosStyle}
+        style={shinyButtonStyle}
         {...animationProps}
         {...(props as MotionProps)}
       >

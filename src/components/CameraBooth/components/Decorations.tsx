@@ -1,11 +1,11 @@
-﻿"use client";
+"use client";
 import Image from "next/image";
 import Magnet from "../../ui/Magnet";
 
 export default function Decorations() {
   return (
     <>
-      {/* Full-viewport cosmos background */}
+      {/* Full-viewport background */}
       <div
         className="fixed inset-0 pointer-events-none z-1"
         style={{

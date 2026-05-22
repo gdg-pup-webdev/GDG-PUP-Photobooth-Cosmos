@@ -25,7 +25,7 @@ export const STEPS = [
     number: "01",
     icon: "",
     title: "Choose Your Filter",
-    desc: "Pick from 6 curated Cosmos-themed filters before the countdown begins.",
+    desc: "Pick from 6 curated custom filters before the countdown begins.",
   },
   {
     number: "02",

@@ -1,4 +1,4 @@
-// Build with AI Theme Colors
+// GDG on Campus Theme Colors
 const colors = {
   cyan: "#57CAFF",
   blue: "#4285F4",
@@ -29,7 +29,7 @@ export function getEmailTemplate(recipientEmail: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   <meta name="supported-color-schemes" content="light dark">
-  <title>GDG PUP Photobooth — Build with AI | GDG on Campus PUP</title>
+  <title>GDG on Campus PUP Photobooth</title>
   <style>
     :root {
       color-scheme: light dark;
@@ -86,15 +86,14 @@ export function getEmailTemplate(recipientEmail: string): string {
             </td>
           </tr>
           
-          <!-- Build with AI Header Section -->
+          <!-- Header Section -->
           <tr>
             <td align="center" class="header-padding header-bg" style="padding: 32px 24px 16px 24px;">
-              <p style="margin: 0; font-size: 40px; line-height: 1;">🤖</p>
               <h1 style="margin: 16px 0 0 0; font-size: 22px; font-weight: 800; color: ${colors.cyan}; line-height: 1.3;">
-                GDG PUP Photobooth Build with AI
+                GDG PUP Photobooth
               </h1>
               <p class="heading-text" style="margin: 8px 0 0 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #1a1a1a;">
-                BUILD WITH AI
+                GDG ON CAMPUS PUP
               </p>
               <table role="presentation" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
                 <tr>
@@ -118,13 +117,13 @@ export function getEmailTemplate(recipientEmail: string): string {
                       Hey there, Sparkmate!
                     </h2>
                     <p class="body-text" style="margin: 0 0 12px 0; font-size: 15px; line-height: 1.6; color: #333333;">
-                      Great job at <strong style="color: ${colors.gold};">Build with AI</strong>!
+                      Thanks for joining us at <strong style="color: ${colors.gold};">GDG on Campus PUP</strong>!
                     </p>
                     <p class="body-text" style="margin: 0 0 12px 0; font-size: 15px; line-height: 1.6; color: #333333;">
-                      You built amazing things with AI — <em style="color: ${colors.cyan};">and we have the photos to prove it!</em> Thanks for being part of Build with AI and capturing these wonderful memories at the photobooth.
+                      We had a blast hanging out with you — <em style="color: ${colors.cyan};">and we have the photos to prove it!</em> Thanks for capturing these wonderful memories at the photobooth.
                     </p>
                     <p class="body-text" style="margin: 0 0 16px 0; font-size: 15px; line-height: 1.6; color: #333333;">
-                      Your awesome photostrip is attached to this email. Share the AI vibes with friends and family!
+                      Your awesome photostrip is attached to this email. Feel free to share the good vibes with friends and family!
                     </p>
                     
                     <!-- Photo Attachment Notice -->
@@ -135,7 +134,7 @@ export function getEmailTemplate(recipientEmail: string): string {
                             <tr>
                               <td style="padding: 12px 24px;">
                                 <p style="margin: 0; color: ${colors.white}; font-size: 14px; font-weight: 600;">
-                                  🤖 Your Build with AI photostrip is attached!
+                                  Your GDG on Campus PUP photostrip is attached!
                                 </p>
                               </td>
                             </tr>
@@ -161,7 +160,7 @@ export function getEmailTemplate(recipientEmail: string): string {
                     <p style="margin: 0; font-size: 12px;">
                       <span style="display: inline-block; padding: 4px 10px; margin: 4px; background: ${colors.blue}; color: ${colors.white}; border-radius: 20px; font-weight: 600;">#GDGPUP26</span>
                       <span style="display: inline-block; padding: 4px 10px; margin: 4px; background: ${colors.purple}; color: ${colors.white}; border-radius: 20px; font-weight: 600;">#BeSuperWithGDG</span>
-                      <span style="display: inline-block; padding: 4px 10px; margin: 4px; background: ${colors.cyan}; color: ${colors.navy}; border-radius: 20px; font-weight: 600;">#BuildWithAI</span>
+                      <span style="display: inline-block; padding: 4px 10px; margin: 4px; background: ${colors.cyan}; color: ${colors.navy}; border-radius: 20px; font-weight: 600;">#GDGOnCampus</span>
                     </p>
                   </td>
                 </tr>
@@ -175,9 +174,8 @@ export function getEmailTemplate(recipientEmail: string): string {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" class="content-card" style="background: linear-gradient(135deg, rgba(187, 37, 40, 0.08), rgba(22, 91, 51, 0.05)); border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.08);">
                 <tr>
                   <td style="padding: 20px;" align="center">
-                    <p style="margin: 0; font-size: 28px;">🚀</p>
                     <p style="margin: 12px 0 0 0; color: ${colors.cyan}; font-size: 16px; font-weight: 700; font-style: italic;">
-                      "Empowering the future with Artificial Intelligence."
+                      "Connecting, learning, and growing together."
                     </p>
                     <p class="muted-text" style="margin: 8px 0 0 0; font-size: 12px; color: #666666;">
                       - With love from Sparky &amp; the GDG Team
@@ -241,7 +239,7 @@ export function getEmailTemplate(recipientEmail: string): string {
                 © ${new Date().getFullYear()} Google Developer Groups on Campus PUP. All rights reserved.
               </p>
               <p style="margin: 6px 0 0 0; color: #aaaaaa; font-size: 10px;">
-                BUILD WITH AI · GDG on Campus PUP
+                GDG on Campus PUP · Photobooth
               </p>
             </td>
           </tr>

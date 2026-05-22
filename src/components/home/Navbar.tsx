@@ -16,7 +16,7 @@ export function Navbar() {
       <div className="flex items-center gap-3">
         {/* <Image
           src="/parallax/test logo 1.png"
-          alt="GDG PUP Cosmos"
+          alt="GDG on Campus PUP"
           width={42}
           height={42}
           className="h-10 w-auto"

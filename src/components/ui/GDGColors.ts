@@ -1,10 +1,10 @@
 import { LucideIcon, Sparkles, CircleOff, Sun, Palette, Zap, Camera } from "lucide-react";
 
-// Cosmos Theme Colors
+// GDG Theme Colors
 export const colors = {
-  cyan:   "#57CAFF",  // Cosmos Cyan
+  cyan:   "#57CAFF",  // GDG Cyan
   blue:   "#4285F4",  // GDG Blue
-  navy:   "#000614",  // Deep Space Navy
+  navy:   "#000614",  // Deep Navy
   white:  "#F0F8FF",  // Starlight White
 };
 

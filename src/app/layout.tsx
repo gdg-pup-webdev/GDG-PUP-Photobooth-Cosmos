@@ -11,26 +11,26 @@ const googleSans = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "GDG Photobooth | Cosmos 2026",
-  description: "Capture amazing photos at Cosmos 2026 by GDG on Campus PUP!",
+  title: "GDG on Campus PUP Photobooth",
+  description: "Capture amazing photos at GDG on Campus PUP events!",
   openGraph: {
-    title: "GDG Photobooth | Cosmos 2026",
-    description: "Capture amazing photos at Cosmos 2026 by GDG on Campus PUP!",
+    title: "GDG on Campus PUP Photobooth",
+    description: "Capture amazing photos at GDG on Campus PUP events!",
     images: [
       {
         url: "/sharing.png",
         width: 1200,
         height: 630,
-        alt: "GDG Photobooth | Cosmos 2026",
+        alt: "GDG on Campus PUP Photobooth",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GDG Photobooth | Cosmos 2026",
+    title: "GDG on Campus PUP Photobooth",
     images: ["/sharing.png"],
-    description: "Capture amazing photos at Cosmos 2026 by GDG on Campus PUP!",
+    description: "Capture amazing photos at GDG on Campus PUP events!",
   },
 };
 

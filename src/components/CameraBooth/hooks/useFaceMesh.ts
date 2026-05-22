@@ -4,7 +4,7 @@ import {
   drawAlienAntennae,
   drawAlienEars,
   drawSpaceVisor,
-  drawCosmosText,
+  drawGDGPupText,
   drawStars,
   drawBinaryRain,
   drawHackerVisor,
@@ -126,8 +126,8 @@ export const useFaceMesh = (
           case "alien_ears":
             drawAlienEars(ctx, landmarks, canvas.width, canvas.height);
             break;
-          case "cosmos_text":
-            drawCosmosText(ctx, landmarks, canvas.width, canvas.height);
+          case "gdg_text":
+            drawGDGPupText(ctx, landmarks, canvas.width, canvas.height);
             break;
           case "space_visor":
             drawSpaceVisor(ctx, landmarks, canvas.width, canvas.height);

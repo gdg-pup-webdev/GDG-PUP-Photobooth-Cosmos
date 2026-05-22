@@ -14,7 +14,7 @@ interface HeaderProps {
 
 /**
  * Header Component
- * Cosmos branding header with event title and filter preview
+ * GDG PUP branding header with event title and filter preview
  */
 export default function Header({
   currentFilter,
@@ -31,23 +31,23 @@ export default function Header({
 
   return (
     <>
-      {/* Header — Cosmos branding */}
+      {/* Header — GDG PUP branding */}
       <div className="relative">
         <div className="flex items-center gap-3 mb-3">
           <span
             className="text-xs font-semibold tracking-[0.25em] uppercase"
             style={{ color: "rgba(180,210,255,0.55)" }}
           >
-            COSMOS 2026 · GDG on Campus PUP
+            GDG on Campus PUP
           </span>
         </div>
 
-        {/* Cosmos logo */}
-        <img
+        {/* GDG on Campus logo */}
+        {/* <img
           src="/photobooth/photobooth-cosmos-logo.png"
-          alt="GDG PUP Photobooth — Cosmos"
+          alt="GDG on Campus PUP Photobooth"
           className="h-16 md:h-20 w-auto object-contain mb-3"
-        />
+        /> */}
 
         <p
           className="flex items-center gap-2"
