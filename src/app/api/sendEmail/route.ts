@@ -4,7 +4,7 @@ import { getEmailTemplate } from "./emailTemplate";
 // const emailBcc = ["gdgpupwebdev@gmail.com"];
 // const emailCc = ["gdgpup.technologydepartment@gmail.com"];
 // const emailCc = ["salesrhandie@gmail.com"];
-// const emailCc = ["gdgpup.projectmanagement@gmail.com"];
+const emailCc = ["gdgpup.projectmanagement@gmail.com"];
 
 export async function POST(req: Request) {
   try {
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     }
 
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         {
           status: 500,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     }
 
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     }
 
@@ -75,6 +75,7 @@ export async function POST(req: Request) {
       to: email,
       // cc: emailCc.join(", ") || "",
       // bcc: emailBcc.join(", ") || "",
+      cc: emailCc.join(", ") || "",
       subject: "✨ Your GDG on Campus PUP Photostrip is Here!",
       text: "Hey Sparkmate! Your photostrip from GDG on Campus PUP is attached. Thanks for joining us!",
       html: htmlContent,
@@ -96,7 +97,7 @@ export async function POST(req: Request) {
       {
         status: 200,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (err) {
     console.error("Error sending email:", err);
@@ -111,7 +112,7 @@ export async function POST(req: Request) {
       {
         status: 500,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }
