@@ -602,7 +602,8 @@ export const drawBinaryRain = (
   ctx: CanvasRenderingContext2D,
   snowflakes: Snowflake[], // reused as per-column state carrier
   width: number,
-  height: number
+  height: number,
+  facesLandmarks?: Landmark[][] // when provided, the rain is clipped away around each face
 ) => {
   const colW    = 18;
   const nCols   = Math.ceil(width / colW);
@@ -661,6 +662,37 @@ export const drawBinaryRain = (
   });
 
   ctx.restore();
+
+  // Punch an oval hole around each detected face so it stays visible
+  // through the falling columns instead of being covered by them.
+  if (facesLandmarks && facesLandmarks.length > 0) {
+    ctx.save();
+    ctx.beginPath();
+
+    facesLandmarks.forEach((landmarks) => {
+      const forehead   = landmarks[10];
+      const chin       = landmarks[152];
+      const leftCheek  = landmarks[234];
+      const rightCheek = landmarks[454];
+      if (!forehead || !chin || !leftCheek || !rightCheek) return;
+
+      const faceW = Math.abs((rightCheek.x - leftCheek.x) * width);
+      const faceH = Math.abs((chin.y - forehead.y) * height);
+      const cx    = ((leftCheek.x + rightCheek.x) / 2) * width;
+      const cy    = ((forehead.y + chin.y) / 2) * height;
+
+      // Padded beyond the raw landmarks so hair/jawline aren't clipped.
+      const holeW = faceW * 1.6;
+      const holeH = faceH * 1.7;
+
+      ctx.moveTo(cx + holeW / 2, cy);
+      ctx.ellipse(cx, cy, holeW / 2, holeH / 2, 0, 0, Math.PI * 2);
+    });
+
+    ctx.clip();
+    ctx.clearRect(0, 0, width, height);
+    ctx.restore();
+  }
 };
 
 // ──────────────────────────────────────────────────────────

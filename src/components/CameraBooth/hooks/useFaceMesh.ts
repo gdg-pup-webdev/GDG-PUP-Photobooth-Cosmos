@@ -17,9 +17,11 @@ import {
 // ===== PERFORMANCE OPTIMIZATION CONSTANTS =====
 // Dynamic FPS based on face count for smooth performance
 const getFPSForFaceCount = (faceCount: number): number => {
-  if (faceCount >= 4) return 12;  // 4+ faces: lowest FPS
-  if (faceCount >= 3) return 15;  // 3 faces: low FPS
-  if (faceCount >= 2) return 20;  // 2 faces: medium FPS
+  if (faceCount >= 6) return 10;  // 6 faces (max): lowest FPS
+  if (faceCount >= 5) return 12;  // 5 faces: very low FPS
+  if (faceCount >= 4) return 15;  // 4 faces: low FPS
+  if (faceCount >= 3) return 18;  // 3 faces: reduced FPS
+  if (faceCount >= 2) return 24;  // 2 faces: medium FPS
   return 30;                       // 1 face: full FPS
 };
 
@@ -102,7 +104,7 @@ export const useFaceMesh = (
       drawStars(ctx, snowflakesRef.current, canvas.width, canvas.height);
     }
     if (filter === "binary_rain") {
-      drawBinaryRain(ctx, snowflakesRef.current, canvas.width, canvas.height);
+      drawBinaryRain(ctx, snowflakesRef.current, canvas.width, canvas.height, results?.multiFaceLandmarks);
     }
 
     if (results?.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
@@ -224,13 +226,16 @@ export const useFaceMesh = (
               const FaceMeshClass = (window as any).FaceMesh;
               const faceMesh = new FaceMeshClass({
                 locateFile: (file: string) => {
-                  return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+                  // Pinned to match the installed npm version (and the Script
+                  // tag in CameraBooth.tsx) so face_mesh.js never fetches
+                  // wasm/binarypb assets from a different, incompatible release.
+                  return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4.1633559619/${file}`;
                 },
               });
 
               // 🔥 PERFORMANCE: Optimized settings
               faceMesh.setOptions({
-                maxNumFaces: 4,
+                maxNumFaces: 6,
                 refineLandmarks: false,  // 🔥 DISABLED: Reduces landmarks from 478 to 468
                 minDetectionConfidence: 0.4,  // Slightly lower for speed
                 minTrackingConfidence: 0.4,   // Slightly lower for speed
@@ -242,6 +247,12 @@ export const useFaceMesh = (
 
               faceMeshRef.current = faceMesh;
               console.log("✅ FaceMesh initialized (optimized mode - refineLandmarks: false)");
+            } else {
+              console.error(
+                `❌ FaceMesh failed to load after ${attempts * 100}ms — window.FaceMesh was never defined. ` +
+                "Stickers will not render. Check that the MediaPipe <Script> tag in CameraBooth.tsx " +
+                "actually loaded (Network tab / ad blockers / offline CDN access)."
+              );
             }
           }
         }
@@ -277,8 +288,12 @@ export const useFaceMesh = (
                     // Route to correct detector
                     if (faceMeshRef.current) {
                       await faceMeshRef.current.send({ image: video });
+                    } else {
+                      console.warn("⚠️ Sticker selected but FaceMesh never finished loading (window.FaceMesh was unavailable).");
                     }
-                  } catch (err) { }
+                  } catch (err) {
+                    console.error("FaceMesh detection frame failed:", err);
+                  }
                 } else if (RENDER_EVERY_FRAME && cachedResultsRef.current) {
                   // 🔥 PERFORMANCE: Render cached results on skipped frames
                   const ctx = canvas.getContext('2d');

@@ -8,16 +8,17 @@ export const CAMERA_CONFIG = {
   audio: false,
 } as const;
 
-// Photostrip canvas settings
+// Photostrip canvas settings — Mission Patch cosmic frame.
+// Slot geometry leaves a 15%-tall header band for Sparky/the CCIS Salubong
+// lockup and a 12.3%-tall footer band for Cirby/the GDG PUP wordmark.
 export const PHOTOSTRIP_CONFIG = {
   width: 1666,
   height: 3000,
   quality: 0.7,
-  frameImage: "/polaroid.png",
   slots: [
-    { x: 130, y: 134, w: 1395, h: 801 },
-    { x: 130, y: 951, w: 1395, h: 801 },
-    { x: 130, y: 1769, w: 1395, h: 801 },
+    { x: 130, y: 450, w: 1406, h: 711 },
+    { x: 130, y: 1182, w: 1406, h: 711 },
+    { x: 130, y: 1914, w: 1406, h: 711 },
   ],
   padding: 40,
   borderRadius: 30,

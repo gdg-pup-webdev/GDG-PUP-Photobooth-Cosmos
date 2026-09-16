@@ -207,21 +207,31 @@ export default function CameraBooth(_props: CameraBoothProps) {
         <canvas ref={snapCanvasRef} className="hidden" />
       </div>
 
-      {/* Load MediaPipe FaceMesh Scripts reliably */}
+      {/* Load MediaPipe FaceMesh Scripts reliably.
+          Pinned to the installed npm version and loaded "afterInteractive"
+          so it's ready well before a user can pick a sticker; "lazyOnload"
+          was deferring this until the browser was idle, which could leave
+          window.FaceMesh undefined long after the sticker picker was used. */}
       <Script
-        src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"
-        strategy="lazyOnload"
+        src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4.1633559619/face_mesh.js"
+        strategy="afterInteractive"
         onLoad={() => {
           console.log("MediaPipe FaceMesh Script Loaded");
+        }}
+        onError={(e) => {
+          console.error("MediaPipe FaceMesh Script failed to load", e);
         }}
       />
 
       {/* Load MediaPipe Hands Scripts for Sparky interaction */}
       <Script
         src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => {
           console.log("MediaPipe Hands Script Loaded");
+        }}
+        onError={(e) => {
+          console.error("MediaPipe Hands Script failed to load", e);
         }}
       />
     </div>

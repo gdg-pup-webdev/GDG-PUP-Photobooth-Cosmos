@@ -1,4 +1,5 @@
 import { PHOTOSTRIP_CONFIG } from "../constants";
+import { drawCosmicFrame, drawSlotCornerBrackets } from "./cosmicFrame";
 
 /**
  * Loads an image from a source URL
@@ -37,7 +38,7 @@ export const roundRectPath = (
 export const generatePhotostrip = async (
   shots: (string | null)[]
 ): Promise<string> => {
-  const { width, height, quality, frameImage, slots, padding, borderRadius } =
+  const { width, height, quality, slots, padding, borderRadius } =
     PHOTOSTRIP_CONFIG;
 
   const finalCanvas = document.createElement("canvas");
@@ -45,9 +46,8 @@ export const generatePhotostrip = async (
   finalCanvas.height = height;
   const ctx = finalCanvas.getContext("2d")!;
 
-  // Draw the frame
-  const frame = await loadImage(frameImage);
-  ctx.drawImage(frame, 0, 0, width, height);
+  // Draw the cosmic Mission Patch frame: sky, nebula glow, stars, mascots, wordmarks
+  await drawCosmicFrame(ctx, width, height);
 
   // Draw each shot
   for (let i = 0; i < shots.length; i++) {
@@ -77,12 +77,15 @@ export const generatePhotostrip = async (
 
     // Draw border
     ctx.save();
-    ctx.strokeStyle = "#1B3444";
+    ctx.strokeStyle = "rgba(185,198,218,0.55)";
     ctx.lineWidth = 2;
     ctx.beginPath();
     roundRectPath(ctx, sx, sy, sw, sh, borderRadius);
     ctx.stroke();
     ctx.restore();
+
+    // HUD-style corner brackets, matching the Mission Patch frame
+    drawSlotCornerBrackets(ctx, sx, sy, sw, sh);
   }
 
   return finalCanvas.toDataURL("image/jpeg", quality);
